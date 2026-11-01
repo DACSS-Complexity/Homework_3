@@ -1,0 +1,92 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=17mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+
+\definecolor{ink}{HTML}{15364A}
+\definecolor{accent}{HTML}{147D85}
+\definecolor{muted}{HTML}{52636C}
+\hypersetup{colorlinks=true,urlcolor=accent,pdftitle={Session 7: Epidemics ABM homework proposal},pdfauthor={ABM course}}
+\renewcommand{\familydefault}{\sfdefault}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist[enumerate]{leftmargin=18pt,itemsep=5pt,topsep=3pt}
+\setlist[itemize]{leftmargin=14pt,itemsep=2pt,topsep=3pt}
+\pagestyle{empty}
+\newcommand{\briefhead}[1]{\par\vspace{5pt}{\large\bfseries\color{ink}#1}\par\vspace{1pt}}
+
+\begin{document}
+{\small\bfseries\color{accent}SESSION 7 \hfill CASE FOR ANALYSIS}
+\par\vspace{7pt}
+{\LARGE\bfseries\color{ink}An outbreak disrupting daily life}
+\par\vspace{4pt}
+{\color{muted}Unknown pathogen | Rising positive tests | Pressure to act}
+
+\briefhead{The situation}
+A new, \textbf{unknown pathogen} is spreading through the population. Testing records show positive results increasing over time. The pathogen has not yet been identified, and officials are working with incomplete information about how the outbreak will develop.
+
+The effects are becoming visible in everyday life. More people are missing work or limiting contact with others. Employers have difficulty keeping normal operations staffed; schools, transportation, and local services face disruption. Customers avoid crowded places, businesses lose activity, and household incomes and supply networks come under pressure. The longer the outbreak continues, the harder it becomes for communities and the economy to function normally.
+
+\briefhead{The government's dilemma}
+The government would prefer everyone to wear a mask and stay home until the pathogen stops spreading. In practice, that response would be impossible to enforce across the whole population. Many people must leave home to provide essential services, care for family members, obtain necessities, or earn daily income. A prolonged shutdown would also deepen the economic damage and could make compliance harder to sustain.
+
+Officials therefore need to consider more limited actions: requiring a portion of the population to wear masks, asking a portion to stay where they are, or using both measures. They want to know whether feasible partial measures can reduce the number of people infectious at the outbreak's peak and delay that peak, while allowing more daily activity to continue.
+
+\briefhead{The decision facing officials}
+The immediate goal is to bring transmission under control so the pathogen eventually stops spreading and daily life and economic activity can recover. Officials must decide which feasible actions to require, and how widely to apply them. They need evidence about the likely consequences of those choices before committing to a policy.
+
+
+\newpage
+{\small\bfseries\color{accent}ASSIGNMENT \hfill FROM DATA TO POLICY}
+\par\vspace{7pt}
+{\LARGE\bfseries\color{ink}Investigate the policy options}
+
+\briefhead{Inputs to use}
+Start from the epidemics ABM used in class. Use the $\beta$ and $\gamma$ estimates calculated from the surveillance data in Notebook 1. Read Notebook 2 and use its computed intervals for $\beta$ and $\gamma$ in the experiment.
+
+\briefhead{Understand the ABM}
+Before designing the experiment, represent the model in two complementary ways:
+\begin{itemize}
+\item Create a LUL (Light-UML-Like) diagram to show what exists in the modeled world: its agents and patches, their states and capabilities, and their relationships.
+\item Create a Flow Chart (FC) to show how the model operates over time: movement, same-patch exposure, recovery, state updates, peak tracking, and the weekly tick. Mark where the policy actions enter this process.
+\end{itemize}
+
+\briefhead{Translate the policy question into BehaviorSpace}
+Officials can promote mask use and staying in place, but cannot require everyone to follow either measure. The model represents these as two separate policy shares:
+\begin{itemize}
+\item the share of people assigned to wear masks;
+\item the share of people assigned to stay where they are.
+\end{itemize}
+There is no cure or vaccine option in this case. In the BehaviorSpace window, under \textbf{Vary variables as follows}, enter both policy-share controls and the $\beta$ and $\gamma$ controls. Set each policy share to 0, 10, 20, 30, and 40\%; vary $\beta$ and $\gamma$ over their Notebook 2 intervals. The two policy shares vary independently: BehaviorSpace tests every mask percentage with every stay-in-place percentage, including 10\% masks with 30\% staying in place. The 0\%/0\% combination is the no-policy baseline.
+
+In \textbf{Repetitions}, choose multiple runs for each combination and leave \textbf{Execute combinations in sequential order} selected. Under \textbf{Measure runs using these metrics}, enter these two global-variable names on separate lines: \texttt{peak-infectious-count} and \texttt{peak-infectious-week}. They record the highest infectious count and the week it occurs; the model updates them in \texttt{record-infectious-peak}. No extra code is needed for these metrics. Leave \textbf{Run metrics every step} unchecked so the final values are recorded after each run. Use \texttt{setup} and \texttt{go} as the setup and go commands, and the model's no-infectious-agents condition as the stop condition. Keep population and initial conditions, time step, recovery process, movement rules, patch arrangement, same-patch exposure, and mask-effect assumption fixed. These model features are not policy levers in this experiment.
+
+\briefhead{Analyze the outputs}
+\begin{tabularx}{\linewidth}{@{}p{0.29\linewidth}X@{}}
+\toprule
+\textbf{Outcome} & \textbf{Question it helps answer}\\
+\midrule
+Peak infectious count & How high did the I curve rise?\\
+Week of infectious peak & When did the peak occur, and was it delayed?\\
+Variation across repetitions & Were the outcomes consistent, or did they vary across runs?\\
+\bottomrule
+\end{tabularx}
+
+Compare the peak infectious count and the week of the peak across policy combinations, parameter settings, and repetitions. Use the 0\%/0\% runs as the baseline. A lower peak indicates flattening in the simulated run; a later peak indicates delay. These outcomes may differ, so discuss both. Summarize variation across repetitions and explain which policy combination performs better under which $\beta$ and $\gamma$ settings. State the assumptions behind the comparison and keep conclusions conditional on this model; the results do not guarantee real-world effects.
+
+\briefhead{Submit three files}
+\begin{enumerate}
+\item \textbf{One PDF} containing both your LUL diagram and Flow Chart.
+\item \textbf{One CSV} exported from your BehaviorSpace experiment, with the results for all parameter and policy combinations and repetitions.
+\item \textbf{One Jupyter notebook (IPYNB)} prepared in Google Colab. Load the BehaviorSpace CSV, analyze the outcomes, and use that analysis to make and justify a policy recommendation.
+\end{enumerate}
+
+
+\end{document}
